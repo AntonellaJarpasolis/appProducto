@@ -8,22 +8,19 @@ export default class ProductService{
     getProductos = async() =>{
         const productos = await this.knex.from('productos').select('*')
         return Object.values(JSON.parse(JSON.stringify(productos)))
-    }
-
+    } 
     addProducto = async(producto) => {
         return this.knex('productos').insert(producto)
+        
     }
 
-    updateProductoById = async(id,producto) => {
-        return this.knex('productos').where({producto_id:id}).update(producto);
+    updateProducto = async (id, producto) => {
+        return this.knex('productos').where({producto_id:id}, '=', id).update(producto)
     }
-
-    deleteProductoById = async(id) => {
-        return this.knex('productos').where({producto_id:id}).del();
+    showProducto = async(id) =>{
+        return this.knex('productos').where({producto_id:id}).first()
     }
-
-    showProductoById = async(id) => {
-        return await this.knex('productos').where({producto_id:id}).select('*').first();
+    deleteProducto= async(id) =>{
+        return this.knex('productos').where({producto_id:id}).del()
     }
-
 }
